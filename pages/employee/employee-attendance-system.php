@@ -34,6 +34,9 @@
         if ($employeeNameResult->num_rows > 0) {
             $row = $employeeNameResult->fetch_assoc();
             $employeeFullName = $row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'];
+            // maintain the detail for display to be able to determine employee shift for login and out 
+            $employeeContract = $row['contract'];
+            $employeeShift = $row['shift'];
 
             // Create a new entry in the atlog table using the emp_id if it does not exist yet
             $createNewEntryQuery = "INSERT INTO atlog (emp_id, atlog_DATE) VALUES ($empId, CURDATE())";
@@ -48,6 +51,8 @@
                 $row = $resultNew->fetch_assoc();
             } else {
                 // Error creating new entry
+                print($conn->error);   //or var_dump($conn);
+               
             }
             // You can use $employeeFullName for further operations
         } else {
